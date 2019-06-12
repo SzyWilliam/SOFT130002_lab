@@ -191,6 +191,24 @@ include "functions.inc.php";
 
       
     </main>
+    <script>
+        let continentOptions = document.getElementById("continent");
+        let countryOptions = document.getElementById("country");
+        continentOptions.onchange = function (e) {
+            let continentIndex = continentOptions.selectedIndex;
+            let filterContinentCode = continentOptions.options[continentIndex].value;
+
+            let country_ajax = new XMLHttpRequest();
+            country_ajax.onreadystatechange = function () {
+                if(country_ajax.status >= 200 && country_ajax.status < 300 && country_ajax.readyState === 4)
+                    countryOptions.innerHTML = country_ajax.responseText;
+            };
+
+            country_ajax.open("POST", "filter.php",true);
+            country_ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            country_ajax.send("continent="+filterContinentCode);
+        }
+    </script>
     
     <footer>
         <div class="container-fluid">
